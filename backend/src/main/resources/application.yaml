@@ -3,6 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/nordicjobagent
     username: admin
     password: admin
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
 
   jpa:
     hibernate:
