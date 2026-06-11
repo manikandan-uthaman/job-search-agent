@@ -1,4 +1,9 @@
 package com.nordicjobagent.agent.discovery;
 
-public record DiscoveryRequest(String role) {
+import jakarta.validation.constraints.NotBlank;
+
+public record DiscoveryRequest(
+        @NotBlank
+        String role
+) {
 }

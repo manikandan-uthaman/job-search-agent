@@ -6,17 +6,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/discovery")
 @AllArgsConstructor
-public class DiscoverController {
+public class DiscoveryController {
 
-    public final DiscoveryAgent discoveryAgent;
+    public final DiscoveryService discoveryService;
 
     @PostMapping
-    public List<DiscoveryResponse> getDiscoveryResponse(@RequestBody DiscoveryRequest request) {
-        return discoveryAgent.discover(request.role());
+    public List<DiscoveryResponse> getDiscoveryResponse(@Valid @RequestBody DiscoveryRequest request) {
+        return discoveryService.discover(request);
     }
 }

@@ -1,6 +1,6 @@
 package com.nordicjobagent.agent.discovery;
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class DiscoveryAgent {
 
     private final ChatClient chatClient;
@@ -17,19 +18,19 @@ public class DiscoveryAgent {
     }
 
     public List<DiscoveryResponse> discover(String role) {
-
+        log.info("Running discovery for role {}", role);
         String prompt = """
                 You are a recruitment research assistant.
 
                 Suggest 5 relevant contacts
-                for a Senior Java Engineer seeking jobs in Sweden.
+                for a %s seeking jobs in Sweden.
 
                 Return:
                 - name
                 - title
                 - company
                 - reason
-                """;
+                """.formatted(role);
 
         return chatClient
                 .prompt(prompt)
