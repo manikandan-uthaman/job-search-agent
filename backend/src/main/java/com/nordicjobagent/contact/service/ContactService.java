@@ -6,6 +6,7 @@ import com.nordicjobagent.contact.repository.ContactRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +34,7 @@ public class ContactService {
         c.setCompany(request.company());
         c.setLocation(request.location());
         c.setLinkedinUrl(request.linkedinUrl());
+        c.setCreatedAt(Instant.now());
         return c;
     }
 }
