@@ -11,8 +11,8 @@
 	<groupId>com.nordicjobagent</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+	<name>Nordic Job Agent</name>
+	<description>Agentic AI platform for Nordic job discovery and outreach</description>
 	<url/>
 	<licenses>
 		<license/>

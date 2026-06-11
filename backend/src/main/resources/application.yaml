@@ -1,3 +1,11 @@
 spring:
-  application:
-    name: backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/nordicjobagent
+    username: admin
+    password: admin
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
