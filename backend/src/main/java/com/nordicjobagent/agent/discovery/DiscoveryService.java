@@ -11,7 +11,7 @@ public class DiscoveryService {
 
     public final DiscoveryAgent discoveryAgent;
 
-    public List<DiscoveryResponse> discover(DiscoveryRequest request) {
-        return discoveryAgent.discover(request.role());
+    public List<DiscoveryResponse> discover() {
+        return discoveryAgent.discoverCompany();
     }
 }

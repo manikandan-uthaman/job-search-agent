@@ -1,5 +1,6 @@
 package com.nordicjobagent.agent.discovery;
 
+import com.nordicjobagent.agent.tool.CompanySearchTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,9 +13,12 @@ import java.util.List;
 public class DiscoveryAgent {
 
     private final ChatClient chatClient;
+    private final CompanySearchTool companySearchTool;
 
-    public DiscoveryAgent(ChatClient.Builder chatClientBuilder) {
+
+    public DiscoveryAgent(ChatClient.Builder chatClientBuilder, CompanySearchTool companySearchTool) {
         this.chatClient = chatClientBuilder.build();
+        this.companySearchTool = companySearchTool;
     }
 
     public List<DiscoveryResponse> discover(String role) {
@@ -30,7 +34,8 @@ public class DiscoveryAgent {
                 - title
                 - company
                 - reason
-                """.formatted(role);
+                """
+                .formatted(role);
 
         return chatClient
                 .prompt(prompt)
@@ -38,4 +43,22 @@ public class DiscoveryAgent {
                 .entity(new ParameterizedTypeReference<>() {
                 });
     }
+
+    public List<DiscoveryResponse> discoverCompany() {
+        String prompt = """
+                Find Swedish companies
+                suitable for a Senior Java Engineer.
+                Use available tools.
+                """;
+
+        return chatClient
+                .prompt(prompt)
+                .tools(companySearchTool)
+                .call()
+                .entity(
+                        new ParameterizedTypeReference<
+                                List<DiscoveryResponse>>() {}
+                );
+    }
+
 }
