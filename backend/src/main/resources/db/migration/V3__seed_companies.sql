@@ -7,4 +7,4 @@ VALUES
 
     ('3297d014-ac1e-4ff3-b5e5-77abae755858', 'Klarna', 'Sweden', true, 90),
 
-    ('c94cecb8-3321-4497-8eab-fea5e927c87f', 'Volvo', 'Sweden', true, 85);
+    ('c94cecb8-3321-4497-8eab-fea5e927c87f', 'Volvo', 'England', true, 85);

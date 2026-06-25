@@ -13,8 +13,8 @@ public class DiscoveryController {
 
     public final DiscoveryService discoveryService;
 
-    @GetMapping
-    public List<DiscoveryResponse> getDiscoveryResponse() {
-        return discoveryService.discover();
+    @PostMapping
+    public List<DiscoveryResponse> getDiscoveryResponse(@RequestBody @Valid DiscoveryRequest request) {
+        return discoveryService.discover(request);
     }
 }

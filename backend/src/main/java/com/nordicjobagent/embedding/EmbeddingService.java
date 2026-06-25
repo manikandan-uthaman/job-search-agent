@@ -1,5 +1,6 @@
 package com.nordicjobagent.embedding;
 
+import com.nordicjobagent.agent.discovery.DiscoveryContext;
 import com.nordicjobagent.company.domain.Company;
 import com.nordicjobagent.company.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -38,8 +40,17 @@ public class EmbeddingService {
                         company.getScore()
                 );
 
+        Map<String, Object> metadata = Map.of(
+                "companyId", company.getId().toString(),
+                "companyName", company.getName(),
+                "country", company.getCountry(),
+                "hiring", company.getHiring(),
+                "score", company.getScore()
+        );
+
         Document document = new Document(
-                content
+                content,
+                metadata
         );
 
         vectorStore.add(List.of(document));
@@ -61,5 +72,54 @@ public class EmbeddingService {
                         doc.getScore()
                 ))
                 .toList();
+    }
+
+    public List<Document> searchDocuments(
+            String query) {
+
+        return vectorStore.similaritySearch(
+                SearchRequest.builder()
+                        .query(query)
+                        .topK(5)
+                        .build()
+        );
+    }
+
+    public List<DiscoveryContext> findRelevantCompanies(
+            String query) {
+
+        List<Document> documents =
+                searchDocuments(query);
+
+        return documents.stream()
+                .map(this::toDiscoveryContext)
+                .toList();
+    }
+
+    private DiscoveryContext toDiscoveryContext(
+            Document document) {
+
+        Map<String, Object> metadata =
+                document.getMetadata();
+
+        return new DiscoveryContext(
+
+                metadata.getOrDefault(
+                        "companyId",
+                        ""
+                ).toString(),
+
+                metadata.getOrDefault(
+                        "companyName",
+                        "Unknown"
+                ).toString(),
+
+                metadata.getOrDefault(
+                        "country",
+                        "Unknown"
+                ).toString(),
+
+                document.getText()
+        );
     }
 }
